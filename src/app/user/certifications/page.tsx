@@ -7,7 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { ArrowLeft, Award, PlusCircle, Edit3, Trash2, Eye, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useFetchUserCertifications, mockApiServices } from '@/hooks/useDataFetching';
+import { useFetchUserCertifications } from '@/hooks/useDataFetching';
+import { deleteUserCertification as apiDeleteUserCertification } from '@/lib/mock-api-services'; // Corrected import
 import { useAuthStore } from '@/stores/authStore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
@@ -24,7 +25,7 @@ export default function ManageCertificationsPage() {
   const handleDeleteCertification = async (certId: string, certName?: string) => {
     if (!user?.id) return;
     try {
-      await mockApiServices.deleteUserCertification(certId); // Assuming this service exists
+      await apiDeleteUserCertification(certId); // Use the correctly imported function
       toast({ title: "Certification Supprimée", description: `"${certName || 'Cette certification'}" a été retirée.` });
       refetch?.();
     } catch (e) {
@@ -111,4 +112,3 @@ export default function ManageCertificationsPage() {
     </div>
   );
 }
-    
