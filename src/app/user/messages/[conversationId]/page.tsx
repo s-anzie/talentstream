@@ -11,7 +11,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { useAuthStore } from '@/stores/authStore';
-import { useFetchUserMessages, useFetchUserConversationDetails, sendUserMessage as apiSendUserMessage } from '@/hooks/useDataFetching'; // Assuming a hook for single conversation details
+import { useFetchUserMessages, useFetchUserConversationDetails } from '@/hooks/useDataFetching'; // Assuming a hook for single conversation details
+import { sendUserMessage as apiSendUserMessage } from '@/lib/mock-api-services';
 import type { UserMessage } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
