@@ -1,2 +1,2 @@
-# talentsream
+# talentstream
 Talent Stream ACT SaaS
