@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -6,10 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { MailCheck, MailWarning, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react"; // Required for JSX and hooks
+import React, { useEffect, useState, Suspense } from "react"; // Required for JSX and hooks
 import { useToast } from "@/hooks/use-toast";
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
@@ -85,5 +84,25 @@ export default function VerifyEmailPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 md:px-6">
+        <Card className="w-full max-w-md shadow-xl text-center">
+          <CardHeader>
+            <Loader2 className="mx-auto h-12 w-12 text-primary mb-4 animate-spin" />
+            <CardTitle className="text-3xl font-bold">Chargement...</CardTitle>
+            <CardDescription className="mt-2">
+              Initialisation de la vérification...
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

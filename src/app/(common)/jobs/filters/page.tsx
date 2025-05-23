@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -9,12 +8,12 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Filter, RotateCcw, Search, XCircle } from "lucide-react";
+import { Filter, RotateCcw, Search, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation"; // Changed from next/navigation
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 
-export default function AdvancedFiltersPage() {
+function AdvancedFiltersContent() {
   const router = useRouter();
   const searchParams = useSearchParams(); // Get current search params
 
@@ -39,7 +38,6 @@ export default function AdvancedFiltersPage() {
     // ... reset other states
     router.push('/jobs'); // Or /jobs/filters to clear current params from URL if staying
   };
-
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -93,4 +91,34 @@ export default function AdvancedFiltersPage() {
     </div>
   );
 }
-    
+
+export default function AdvancedFiltersPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto py-12 px-4 md:px-6">
+        <Card className="max-w-3xl mx-auto shadow-xl">
+          <CardHeader className="bg-muted/30">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                  <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                  <CardTitle className="text-2xl md:text-3xl text-primary">Chargement...</CardTitle>
+              </div>
+            </div>
+            <CardDescription className="mt-1">Initialisation des filtres...</CardDescription>
+          </CardHeader>
+          <CardContent className="py-8">
+            <div className="space-y-6">
+              <div className="h-10 bg-muted rounded animate-pulse" />
+              <div className="h-10 bg-muted rounded animate-pulse" />
+              <div className="h-20 bg-muted rounded animate-pulse" />
+              <div className="h-10 bg-muted rounded animate-pulse" />
+              <div className="h-20 bg-muted rounded animate-pulse" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    }>
+      <AdvancedFiltersContent />
+    </Suspense>
+  );
+}

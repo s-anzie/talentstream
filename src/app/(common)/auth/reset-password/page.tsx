@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -14,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter, useSearchParams } from "next/navigation"; // For getting token from URL
-import React from "react"; // Required for JSX
+import React, { Suspense } from "react"; // Required for JSX
 
 const resetPasswordSchema = z.object({
   newPassword: z.string().min(6, { message: "Le mot de passe doit comporter au moins 6 caractères." }),
@@ -25,7 +24,7 @@ const resetPasswordSchema = z.object({
 });
 type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -67,7 +66,6 @@ export default function ResetPasswordPage() {
       </div>
     );
   }
-
 
   return (
     <div className="container mx-auto flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 md:px-6">
@@ -154,5 +152,30 @@ export default function ResetPasswordPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 md:px-6">
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-4xl w-full">
+          <div className="hidden lg:block">
+            <div className="w-full h-[700px] bg-muted rounded-xl animate-pulse" />
+          </div>
+          <Card className="w-full shadow-xl">
+            <CardHeader className="text-center">
+              <Loader2 className="mx-auto h-12 w-12 text-primary mb-4 animate-spin" />
+              <CardTitle className="text-3xl font-bold">Chargement...</CardTitle>
+              <CardDescription>
+                Initialisation de la réinitialisation...
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+      </div>
+    }>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
