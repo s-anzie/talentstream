@@ -4,7 +4,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { ArrowLeft, ShieldCheck, KeyRound, ListLock } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, KeyRound, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 // import { useAuthStore } from '@/stores/authStore';
 // import { useFetchCompanySecuritySettings, updateCompanySecuritySettings } from '@/hooks/useDataFetching'; // Example
@@ -35,7 +35,7 @@ export default function CompanySecuritySettingsPage() {
                 </CardContent>
             </Card>
              <Card className="border-primary/20">
-                <CardHeader className="pb-3"><CardTitle className="text-lg flex items-center"><ListLock className="mr-2 h-5 w-5 text-secondary"/>Journaux d'Audit</CardTitle></CardHeader>
+                <CardHeader className="pb-3"><CardTitle className="text-lg flex items-center"><Lock className="mr-2 h-5 w-5 text-secondary"/>Journaux d'Audit</CardTitle></CardHeader>
                 <CardContent>
                     <p className="text-sm text-muted-foreground mb-3">Consultez un historique des actions importantes effectuées sur le compte de l'entreprise par les membres de votre équipe (connexions, modifications majeures, etc.).</p>
                     <Button variant="outline" disabled>Voir les Journaux d'Audit (Bientôt)</Button>
