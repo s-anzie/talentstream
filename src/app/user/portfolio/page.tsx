@@ -8,7 +8,8 @@ import { ArrowLeft, LayoutGrid, PlusCircle, Eye, Edit3, Trash2, Loader2, ImageOf
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useFetchUserPortfolioItems, mockApiServices } from '@/hooks/useDataFetching';
+import { useFetchUserPortfolioItems } from '@/hooks/useDataFetching';
+import { deleteUserPortfolioItem } from '@/lib/mock-api-services'; // Corrected import path
 import { useAuthStore } from '@/stores/authStore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
@@ -24,7 +25,7 @@ export default function ManagePortfolioPage() {
   const handleDeleteItem = async (itemId: string, itemTitle?: string) => {
     if (!user?.id) return;
     try {
-      await mockApiServices.deleteUserPortfolioItem(itemId); // Use the imported service
+      await deleteUserPortfolioItem(itemId); 
       toast({ title: "Élément Supprimé", description: `"${itemTitle || 'Cet élément'}" a été retiré de votre portfolio.` });
       refetch?.();
     } catch (e) {
@@ -69,7 +70,7 @@ export default function ManagePortfolioPage() {
                     <Card key={item.id} className="flex flex-col shadow-md hover:shadow-xl transition-shadow">
                         <CardHeader className="p-0">
                             {item.imageUrl ? (
-                                <Image src={item.imageUrl} alt={item.title} width={400} height={250} className="rounded-t-lg object-cover aspect-video w-full" data-ai-hint="project abstract design" />
+                                <Image src={item.imageUrl} alt={item.title || "Image du projet"} width={400} height={250} className="rounded-t-lg object-cover aspect-video w-full" data-ai-hint="project abstract design" />
                             ) : (
                                 <div className="aspect-video w-full bg-muted rounded-t-lg flex items-center justify-center">
                                     <ImageOff className="h-16 w-16 text-muted-foreground"/>
@@ -79,7 +80,7 @@ export default function ManagePortfolioPage() {
                         <CardContent className="pt-4 flex-grow">
                             <CardTitle className="text-lg text-primary mb-1 line-clamp-2">{item.title}</CardTitle>
                             <p className="text-sm text-muted-foreground line-clamp-3 mb-2">{item.description}</p>
-                            {item.tags && <div className="flex flex-wrap gap-1 mb-2">{item.tags.split(',').map(tag => <Badge key={tag} variant="secondary" className="text-xs">{tag.trim()}</Badge>)}</div>}
+                            {item.tags && <div className="flex flex-wrap gap-1 mb-2">{item.tags.split(',').map(tag => tag.trim()).filter(tag => tag).map((tag, index) => <Badge key={index} variant="secondary" className="text-xs">{tag}</Badge>)}</div>}
                         </CardContent>
                         <CardFooter className="border-t pt-3 flex justify-end gap-2">
                             <Button variant="ghost" size="sm" asChild><Link href={`/user/portfolio/${item.id}`}><Eye className="mr-1.5 h-4 w-4"/>Voir</Link></Button>
