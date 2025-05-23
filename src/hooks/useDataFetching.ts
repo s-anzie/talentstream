@@ -83,7 +83,8 @@ const useGenericFetch = <T, P = void>(
     if (autoFetch) {
       fetchData(params); // Use params from the current render cycle
     }
-  }, [fetchData, autoFetch, stringifiedParams]); // Removed raw 'params' from dependencies
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchData, autoFetch, stringifiedParams]); // Removed raw params, relying on stringifiedParams
 
   const customSetData = useCallback((newDataOrFn: T | null | ((prevState: T | null) => T | null)) => {
     setState(prev => ({
@@ -159,6 +160,12 @@ export const useFetchSavedJobs = (candidateId: string | null) =>
     candidateId,
     !!candidateId
   );
+export const useFetchSavedJobDetails = (savedJobId: string | null) => 
+  useGenericFetch<SavedJob | null, string | null>(
+    (id) => id ? mockApi.fetchSavedJobDetails(id) : Promise.resolve(null),
+    savedJobId,
+    !!savedJobId
+  );
 
 // --- Dashboard/Company Hooks ---
 export const useFetchDashboardJobs = (companyId: string | null) =>
@@ -169,7 +176,7 @@ export const useFetchDashboardJobs = (companyId: string | null) =>
   );
 
 export const useFetchDashboardJobDetails = (jobId: string | null) =>
-  useGenericFetch<(JobPostingFormData & {id: string, companyId: string, status: string, views: number, applications: number, datePosted: string, pipelineStats?: any, company?:{id:string, name:string, logoUrl?:string} }) | null, string | null>(
+  useGenericFetch<(JobPostingFormData & {id: string, companyId: string, status: string, views: number, applicationsCount: number, datePosted: string, pipelineStats?: any, company?:{id:string, name:string, logoUrl?:string} }) | null, string | null>(
     (id) => id ? mockApi.fetchDashboardJobDetails(id) : Promise.resolve(null),
     jobId,
     !!jobId
@@ -226,15 +233,21 @@ export const useFetchInvoiceDetails = (invoiceId: string | null) =>
     invoiceId,
     !!invoiceId
   );
+export const useFetchPaymentMethods = (companyId: string | null) => 
+  useGenericFetch<PaymentMethod[] | null, string | null>(
+    (id) => id ? mockApi.fetchPaymentMethods(id) : Promise.resolve([]), // Changed to resolve with empty array for null companyId
+    companyId,
+    !!companyId
+  );
 
-export const useFetchCompanyApplications = (companyId: string | null) => // For dashboard listing
+export const useFetchCompanyApplications = (companyId: string | null) => 
   useGenericFetch<DashboardCompanyApplication[], string | null>(
     (id) => id ? mockApi.fetchCompanyApplications(id) : Promise.resolve([]),
     companyId,
     !!companyId
   );
 
-export const useFetchCompanyApplicationDetails = (applicationId: string | null) => // For dashboard viewing one
+export const useFetchCompanyApplicationDetails = (applicationId: string | null) => 
   useGenericFetch<DashboardCompanyApplication | null, string | null>(
     (id) => id ? mockApi.fetchCompanyApplicationDetails(id) : Promise.resolve(null),
     applicationId,
@@ -277,7 +290,7 @@ export const useFetchAnalyticsOverviewData = (companyId: string | null) =>
     !!companyId
   );
 
-// --- Settings Hooks ---
+// Settings
 export const useFetchCompanyProfileSettings = (companyId: string | null) =>
   useGenericFetch<CompanyProfileSettings | null, string | null>(
     (id) => id ? mockApi.fetchCompanyProfileSettings(id) : Promise.resolve(null),
@@ -393,7 +406,3 @@ export const useFetchCalendarEvents = (userIdOrCompanyId: string | null, rangeSt
         !!params.userIdOrCompanyId
     );
 };
-
-// Re-export commonly used services for convenience if needed directly in components
-export * as mockApiServices from '@/lib/mock-api-services';
-// Ensure there is no unparsed text after this line // Example of ensuring nothing follows
