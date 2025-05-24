@@ -7,11 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { ArrowLeft, ImagePlus, Link as LinkIcon, Tag, Save, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+// import { Label } from '@/components/ui/label'; // No longer needed as FormLabel is used
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"; // Ensured FormDescription is here
 import { PortfolioItemFormData, portfolioItemSchema } from '@/lib/types';
 import { useAuthStore } from '@/stores/authStore';
 import { addUserPortfolioItem } from '@/lib/mock-api-services';
