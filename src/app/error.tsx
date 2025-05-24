@@ -23,7 +23,7 @@ export default function Error({
         We encountered an unexpected error. Please try again.
       </p>
       {error?.message && (
-        <pre className="mb-4 p-4 bg-muted text-destructive-foreground rounded-md text-left text-sm overflow-x-auto">
+        <pre className="mb-4 p-4 bg-muted text-foreground rounded-md text-left text-sm overflow-x-auto">
           {error.message}
         </pre>
       )}
