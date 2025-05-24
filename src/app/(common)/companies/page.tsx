@@ -120,7 +120,7 @@ export default function CompaniesPage() {
                   </div>
                 </CardContent>
                 <CardFooter className="border-t pt-4 flex justify-between items-center">
-                  <span className="text-sm font-medium text-secondary">{company.activeJobs} offres actives</span>
+                  <span className="text-sm font-medium text-secondary">{`${company.activeJobs}`} offres actives</span>
                   <Button asChild size="sm" className="bg-primary hover:bg-primary/90">
                     <Link href={`/companies/${company.id}`}>
                       Voir le Profil <ExternalLink className="ml-2 h-4 w-4" />

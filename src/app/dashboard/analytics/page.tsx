@@ -1,4 +1,3 @@
-
 "use client";
 
 import { BarChart3, Briefcase, Users, Clock, TrendingUp, AlertTriangle, Download, ArrowRight, Loader2, FileText } from "lucide-react";
@@ -11,10 +10,29 @@ import Link from "next/link";
 import { useFetchAnalyticsOverviewData } from "@/hooks/useDataFetching";
 import { useAuthStore } from "@/stores/authStore";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Icon as LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
-const iconMap: { [key: string]: LucideIcon } = {
-  Briefcase, Users, Clock, TrendingUp, FileText: FileText, BarChart3: BarChart3,
+// Solution 1: Correction du type de l'iconMap
+const iconMap: Record<string, LucideIcon> = {
+  Briefcase,
+  Users,
+  Clock,
+  TrendingUp,
+  FileText,
+  BarChart3,
+};
+
+// Solution 2: Alternative avec une fonction helper
+const getIcon = (iconName: string): LucideIcon => {
+  const icons: Record<string, LucideIcon> = {
+    Briefcase,
+    Users,
+    Clock,
+    TrendingUp,
+    FileText,
+    BarChart3,
+  };
+  return icons[iconName] || Briefcase;
 };
 
 const chartConfigCandidates = {
@@ -60,12 +78,31 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {analyticsData.kpis.map((stat) => {
+          // Solution 1: Utilisation directe avec le bon type
           const IconComponent = iconMap[stat.iconName] || Briefcase;
+          
+          // Solution 2: Alternative avec la fonction helper
+          // const IconComponent = getIcon(stat.iconName);
+          
           return (
             <Card key={stat.title} className="shadow-md hover:shadow-xl transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-primary">{stat.title}</CardTitle><IconComponent className="h-5 w-5 text-muted-foreground" /></CardHeader>
-              <CardContent><div className="text-3xl font-bold">{stat.value}</div><p className={`text-xs ${stat.trend?.startsWith('+') ? 'text-green-600' : stat.trend?.startsWith('-') ? 'text-red-600': 'text-muted-foreground'}`}>{stat.trend}</p></CardContent>
-              <CardFooter><Button variant="link" size="sm" asChild className="p-0 h-auto text-xs text-primary"><Link href={stat.title.includes("Offres") ? "/dashboard/analytics/jobs" : "/dashboard/analytics/candidates"}>Voir détails <ArrowRight className="ml-1 h-3 w-3"/></Link></Button></CardFooter>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-primary">{stat.title}</CardTitle>
+                <IconComponent className="h-5 w-5 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">{stat.value}</div>
+                <p className={`text-xs ${stat.trend?.startsWith('+') ? 'text-green-600' : stat.trend?.startsWith('-') ? 'text-red-600': 'text-muted-foreground'}`}>
+                  {stat.trend}
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button variant="link" size="sm" asChild className="p-0 h-auto text-xs text-primary">
+                  <Link href={stat.title.includes("Offres") ? "/dashboard/analytics/jobs" : "/dashboard/analytics/candidates"}>
+                    Voir détails <ArrowRight className="ml-1 h-3 w-3"/>
+                  </Link>
+                </Button>
+              </CardFooter>
             </Card>
           );
         })}

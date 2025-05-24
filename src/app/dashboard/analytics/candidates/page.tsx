@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { useFetchAllCompanyCandidates } from "@/hooks/useDataFetching"; // For skills table
 import { useAuthStore } from "@/stores/authStore";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMemo } from "react";
 
 // Dummy Data for charts - actual data for table will be from fetched candidates
 const candidateAcquisitionData = [ { date: "Jan 24", newCandidates: 120 }, { date: "Fev 24", newCandidates: 150 }, { date: "Mar 24", newCandidates: 130 }, { date: "Avr 24", newCandidates: 180 }, { date: "Mai 24", newCandidates: 160 }, { date: "Juin 24", newCandidates: 200 }, { date: "Juil 24", newCandidates: 190 }, ];
