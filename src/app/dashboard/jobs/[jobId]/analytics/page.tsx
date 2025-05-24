@@ -56,7 +56,7 @@ export default function JobSpecificAnalyticsPage() {
     );
   }
 
-  const conversionRate = job.views > 0 ? ((job.applications / job.views) * 100).toFixed(1) + '%' : 'N/A';
+  const conversionRate = job.views > 0 ? ((job.applicationsCount / job.views) * 100).toFixed(1) + '%' : 'N/A';
 
   return (
     <div className="space-y-6">
@@ -74,7 +74,7 @@ export default function JobSpecificAnalyticsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Eye className="mr-1.5 h-4 w-4"/> Vues</CardDescription><CardTitle className="text-3xl">{job.views}</CardTitle></CardHeader></Card>
-        <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Users className="mr-1.5 h-4 w-4"/> Candidatures</CardDescription><CardTitle className="text-3xl">{job.applications}</CardTitle></CardHeader></Card>
+        <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Users className="mr-1.5 h-4 w-4"/> Candidatures</CardDescription><CardTitle className="text-3xl">{job.applicationsCount}</CardTitle></CardHeader></Card>
         <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Percent className="mr-1.5 h-4 w-4"/> Taux Conversion</CardDescription><CardTitle className="text-3xl">{conversionRate}</CardTitle></CardHeader></Card>
         <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Clock className="mr-1.5 h-4 w-4"/> Temps pour Remplir</CardDescription><CardTitle className="text-3xl">N/A</CardTitle></CardHeader><CardContent><p className="text-xs text-muted-foreground">(Donnée à venir)</p></CardContent></Card>
       </div>

@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Briefcase, MapPin, Search, Bookmark, ExternalLink, Trash2, Building, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useFetchSavedJobs, removeSavedJob } from "@/hooks/useDataFetching"; // Assuming removeSavedJob is implemented in mock-api
+import { useFetchSavedJobs } from "@/hooks/useDataFetching"; 
+import { removeSavedJob } from "@/lib/mock-api-services"; // Corrected import path
 import { useAuthStore } from "@/stores/authStore";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,7 +22,7 @@ export default function SavedJobsPage() {
     if (!user?.id) return;
     try {
       // Call mock API to remove
-      await mockApi.removeSavedJob(user.id, savedJobId); 
+      await removeSavedJob(user.id, savedJobId); 
       // Update local state optimistically or after confirmation
       setSavedJobs?.(prev => prev?.filter(job => job.id !== savedJobId) || null);
       toast({ title: "Offre Retirée", description: "L'offre a été retirée de vos sauvegardes." });
@@ -65,7 +66,7 @@ export default function SavedJobsPage() {
                         <Image src={job.logoUrl || `https://placehold.co/60x60.png?text=${job.company.substring(0,1)}`} alt={`${job.company} logo`} width={50} height={50} className="rounded-md border" data-ai-hint="company logo"/>
                         <div>
                           <CardTitle className="text-lg leading-tight hover:text-primary transition-colors"><Link href={`/jobs/${job.jobId}`}>{job.title}</Link></CardTitle>
-                          <Link href={`/companies/${job.company.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-muted-foreground hover:underline flex items-center"><Building className="h-3 w-3 mr-1" /> {job.company}</Link>
+                          <Link href={`/companies/${job.companyId || job.company.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-muted-foreground hover:underline flex items-center"><Building className="h-3 w-3 mr-1" /> {job.company}</Link>
                         </div>
                       </div>
                     </div>
@@ -106,4 +107,3 @@ export default function SavedJobsPage() {
   );
 }
 
-    

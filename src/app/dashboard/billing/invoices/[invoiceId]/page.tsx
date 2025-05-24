@@ -78,7 +78,7 @@ export default function InvoiceDetailsPage() {
                         <tr className="border-b"><th className="text-left font-semibold py-3 px-4">Description</th><th className="text-center font-semibold py-3 px-4">Qté</th><th className="text-right font-semibold py-3 px-4">Prix Unitaire HT</th><th className="text-right font-semibold py-3 px-4">Total HT</th></tr>
                     </thead>
                     <tbody>
-                        {(invoice.items || [{description: `Abonnement TalentSphere - Plan ${invoice.planName || 'Standard'}`, quantity: 1, unitPrice: invoice.amount, total: invoice.amount}]).map((item: any, index: number) => (
+                        {([{description: `Abonnement TalentSphere - Plan ${invoice.planName || 'Standard'}`, quantity: 1, unitPrice: invoice.amount, total: invoice.amount}]).map((item: any, index: number) => (
                             <tr key={index} className="border-b"><td className="py-3 px-4">{item.description}</td><td className="text-center py-3 px-4">{item.quantity}</td><td className="text-right py-3 px-4">{item.unitPrice}</td><td className="text-right py-3 px-4">{item.total}</td></tr>
                         ))}
                     </tbody>

@@ -67,7 +67,7 @@ export default function JobCandidatesPage() {
   const handleDragStart = (e: DragEvent<HTMLDivElement>, candidate: CompanyCandidate) => {
     e.dataTransfer.setData("candidateId", candidate.id);
     setDraggedItemId(candidate.id);
-    setOriginalStatus(candidate.status);
+    setOriginalStatus(candidate.status as (string | null));
   };
 
   const handleDragEnd = () => {

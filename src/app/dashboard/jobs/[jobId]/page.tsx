@@ -69,7 +69,7 @@ export default function JobOverviewPage() {
 
   const salaryDisplay = job.salaryMin && job.salaryMax ? `${job.salaryMin/1000}k€ - ${job.salaryMax/1000}k€ / an` : "Non spécifié";
   const daysOpen = job.applicationDeadline ? Math.floor((new Date(job.applicationDeadline).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : 'N/A'; // Days until deadline
-  const conversionRate = job.views > 0 ? ((job.applications / job.views) * 100).toFixed(1) + '%' : '0%';
+  const conversionRate = job.views > 0 ? ((job.applicationsCount / job.views) * 100).toFixed(1) + '%' : '0%';
 
   const pipelineStages = [
     { name: "Nouveaux", count: job.pipelineStats?.nouveau || 0, icon: Users, color: "text-blue-500" },
@@ -97,7 +97,7 @@ export default function JobOverviewPage() {
               <Badge variant="outline" className={cn("text-sm", getStatusBadgeVariant(job.status))}>{job.status}</Badge>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto pt-2 sm:pt-0">
-              <Button asChild className="w-full sm:w-auto"><Link href={`/dashboard/jobs/${job.id}/candidates`}><Users className="mr-2 h-4 w-4" /> Gérer Candidats ({job.applications})</Link></Button>
+              <Button asChild className="w-full sm:w-auto"><Link href={`/dashboard/jobs/${job.id}/candidates`}><Users className="mr-2 h-4 w-4" /> Gérer Candidats ({job.applicationsCount})</Link></Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild><Button variant="outline" className="w-full sm:w-auto">Actions <ChevronDown className="ml-2 h-4 w-4" /></Button></DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -115,7 +115,7 @@ export default function JobOverviewPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Eye className="mr-1.5 h-4 w-4 text-muted-foreground" /> Vues</CardDescription><CardTitle className="text-3xl font-bold text-primary">{job.views}</CardTitle></CardHeader><CardContent><p className="text-xs text-muted-foreground">+20% vs mois dernier</p></CardContent></Card>
-        <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Users className="mr-1.5 h-4 w-4 text-muted-foreground" /> Candidatures</CardDescription><CardTitle className="text-3xl font-bold text-primary">{job.applications}</CardTitle></CardHeader><CardContent><p className="text-xs text-muted-foreground">5 nouvelles aujourd'hui</p></CardContent></Card>
+        <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Users className="mr-1.5 h-4 w-4 text-muted-foreground" /> Candidatures</CardDescription><CardTitle className="text-3xl font-bold text-primary">{job.applicationsCount}</CardTitle></CardHeader><CardContent><p className="text-xs text-muted-foreground">5 nouvelles aujourd'hui</p></CardContent></Card>
         <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><TrendingUp className="mr-1.5 h-4 w-4 text-muted-foreground" /> Tx Conv.</CardDescription><CardTitle className="text-3xl font-bold text-primary">{conversionRate}</CardTitle></CardHeader><CardContent><p className="text-xs text-muted-foreground">(Cand. / Vues)</p></CardContent></Card>
         <Card className="shadow-sm"><CardHeader className="pb-2"><CardDescription className="flex items-center text-sm"><Clock className="mr-1.5 h-4 w-4 text-muted-foreground" /> Deadline dans</CardDescription><CardTitle className="text-3xl font-bold text-primary">{daysOpen} jours</CardTitle></CardHeader><CardContent><p className="text-xs text-muted-foreground">Limite: {job.applicationDeadline ? new Date(job.applicationDeadline).toLocaleDateString('fr-FR') : 'N/A'}</p></CardContent></Card>
       </div>

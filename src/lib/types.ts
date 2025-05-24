@@ -356,6 +356,7 @@ export interface Invoice {
   taxAmount?: string;
   totalAmount?: string;
   paymentMethod?: string;
+  items?: {}[]
 }
 
 export interface PaymentMethod {
