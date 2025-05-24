@@ -65,7 +65,7 @@ export default function SavedJobsPage() {
                       <div className="flex items-center space-x-3">
                         <Image src={job.logoUrl || `https://placehold.co/60x60.png?text=${job.company.substring(0,1)}`} alt={`${job.company} logo`} width={50} height={50} className="rounded-md border" data-ai-hint="company logo"/>
                         <div>
-                          <CardTitle className="text-lg leading-tight hover:text-primary transition-colors"><Link href={`/jobs/${job.jobId}`}>{job.title}</Link></CardTitle>
+                          <CardTitle className="text-lg leading-tight hover:text-primary transition-colors"><Link href={`/jobs/${job.id}`}>{job.title}</Link></CardTitle>
                           <Link href={`/companies/${job.companyId || job.company.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-muted-foreground hover:underline flex items-center"><Building className="h-3 w-3 mr-1" /> {job.company}</Link>
                         </div>
                       </div>
@@ -81,7 +81,7 @@ export default function SavedJobsPage() {
                     </div>
                   </CardContent>
                   <CardFooter className="border-t pt-4 grid grid-cols-2 gap-2">
-                    <Button asChild variant="outline" size="sm"><Link href={`/jobs/${job.jobId}`}><ExternalLink className="mr-2 h-4 w-4" /> Voir l'Offre</Link></Button>
+                    <Button asChild variant="outline" size="sm"><Link href={`/jobs/${job.id}`}><ExternalLink className="mr-2 h-4 w-4" /> Voir l'Offre</Link></Button>
                     <Button variant="destructive" size="sm" onClick={() => handleUnsaveJob(job.id)}><Trash2 className="mr-2 h-4 w-4" /> Retirer</Button>
                   </CardFooter>
                 </Card>
